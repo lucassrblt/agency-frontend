@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import AdminView from "../views/AdminView.vue";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
+import AdminAd from "../views/AdminAd.vue";
 // import {isTokenExpired} from "../utils/jwtUtils.ts";
 //
 
@@ -19,7 +20,16 @@ import LoginView from "../views/LoginView.vue";
 
 const routes = [
     { path: '/', component: HomeView },
-    { path: '/admin', component: AdminView},
+    { path: '/admin/annonce', component: AdminView, children : [
+            {
+                path : "/:id",
+                component: AdminAd
+            }
+        ],
+    meta : {
+        layout: "Admin"
+    }
+    },
     { path: '/connexion', component: LoginView },
 ]
 

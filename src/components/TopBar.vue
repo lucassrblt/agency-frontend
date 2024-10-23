@@ -21,7 +21,11 @@ const makeSearch = useDebounceFn(() => {
 }, 300);
 
 
-watch(filter, () => {
+watch(filter, (newValue) => {
+    store.setType(newValue.type)
+    store.setCity(newValue.city)
+    store.setPrice(newValue.price)
+    store.setSquare(newValue.square)
     makeSearch()
 }, {deep: true});
 

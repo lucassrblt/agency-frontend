@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import Card from 'primevue/card';
 import Button from "primevue/button";
+import {useRouter} from "vue-router";
+import {useConfirm} from "primevue/useconfirm";
+import { useToast } from "primevue/usetoast";
+import Toast from "primevue/toast";
+
 
 interface AdItem {
   id: number;
@@ -23,12 +28,36 @@ interface Images {
   id: number;
   url: string;
 }
+
+const router = useRouter();
+// const toast = useToast();
 const props = defineProps<{
   ads: AdItem[];
 }>();
 
-const { ads } = props;
+const confirm = useConfirm();
 
+const handleConfirm = () => {
+  confirm.require({
+    message: 'Etes-vous sur de vouloir supprimer cette annonce',
+    header: 'Confirmation',
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Cancel',
+      severity: 'secondary',
+      outlined: true
+    },
+    acceptProps: {
+      label: 'Save'
+    },
+    accept: () => {
+      toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+    },
+    reject: () => {
+      toast.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+    }
+  });
+};
 
 
 
@@ -51,8 +80,10 @@ const { ads } = props;
       </template>
       <template #footer class>
         <div class="flex gap-4 mt-4">
-          <Button label="Modifier" severity="secondary" outlined class="w-full" />
-          <Button label="Supprimer" severity="danger" class="w-full" />
+<!--          <Toast />-->
+          <ConfirmDialog></ConfirmDialog>
+          <Button label="Modifier" severity="secondary" outlined class="w-full" @click="router.push({path : `/admin/annonces/${item.id}`})"/>
+          <Button label="Supprimer" severity="danger" class="w-full" @click="handleConfirm()"/>
         </div>
       </template>
     </Card>

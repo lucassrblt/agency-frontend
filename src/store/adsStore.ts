@@ -2,25 +2,37 @@ import {defineStore} from "pinia";
 
 export const useAdsStore = defineStore('ads', {
     state : () => ({
-        typeFilter : '',
-        cityFilter: '',
-        squareFilter: '',
-        priceFilter: '',
-        ads : []
+       filter: {
+           type: '',
+           city: '',
+           square: '',
+           price: ''
+       },
+        ads : [],
+        isLoading: false
+
     }),
 
     actions : {
         setType(value: string) {
-            value === 'location' ? this.typeFilter = '0' : this.typeFilter = '1';
+            console.log('value', value)
+            if(value.toLowerCase() === 'location'){
+                this.filter.type = 0
+            }else if(value.toLowerCase() === 'vente'){
+                this.filter.type = 1
+            }else{
+                this.filter.type = ""
+            }
+
         },
         setCity(value: string) {
-            this.cityFilter = value;
+            this.filter.city = value;
         },
         setSquare(value: string) {
-            this.squareFilter = value;
+            this.filter.square = value;
         },
         setPrice(value: string) {
-            this.priceFilter = value;
+            this.filter.price = value;
         },
         setAds(value: any){
             this.ads = value
@@ -28,10 +40,11 @@ export const useAdsStore = defineStore('ads', {
 
         async fetchAds(){
             try {
-                let url = `http://localhost:3000/ad?&city=${this.cityFilter}`
-                if(this.squareFilter !== null) url+= `&squarefoot=${this.squareFilter}`
-                if(this.priceFilter !== null) url+= `&price=${this.priceFilter}`
-                if(this.typeFilter !== '') url+= `&type=${this.typeFilter}`
+                this.isLoading = true;
+                let url = `http://localhost:3000/ad?&city=${this.filter.city}`
+                if(this.filter.square !== '') url+= `&squarefoot=${this.filter.square}`
+                if(this.filter.price !== '') url+= `&price=${this.filter.price}`
+                if(this.filter.type !== '') url+= `&type=${this.filter.type}`
                 console.log(url)
                 const response = await fetch(url , {
                     method: "GET",
@@ -40,9 +53,12 @@ export const useAdsStore = defineStore('ads', {
                     },
                 });
                 const data = await response.json();
+                console.log('data received', data)
                 this.setAds(data);
             } catch (error) {
                 console.error("Erreur lors de la récupération des annonces:", error);
+            }finally{
+                this.isLoading = false
             }
         }
     }
