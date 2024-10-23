@@ -9,7 +9,7 @@ const fetchAdds = async () => {
   store.fetchAds();
 }
 
-const adds = ref(store.ads);
+const ads = ref(store.ads);
 
 onMounted(async () => {
   await fetchAdds();
@@ -24,8 +24,8 @@ watch(() => store.priceFilter, fetchAdds);
 <template>
   <section class="flex w-full h-full flex-col px-16 py-12">
     <top-bar />
-    <annonces-wrapper :annonces="adds" />
-    <div v-if="adds.length === 0">Chargement en cours...</div>
+    <annonces-wrapper :ads="ads" />
+    <div v-if="ads.length === 0">Chargement en cours...</div>
 
   </section>
 </template>

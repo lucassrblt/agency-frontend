@@ -17,10 +17,10 @@ export const useAdsStore = defineStore('ads', {
             this.cityFilter = value;
         },
         setSquare(value: string) {
-            this.squareFilter = parseInt(value);
+            this.squareFilter = value;
         },
         setPrice(value: string) {
-            this.priceFilter = parseInt(value);
+            this.priceFilter = value;
         },
         setAds(value: any){
             this.ads = value
@@ -28,7 +28,7 @@ export const useAdsStore = defineStore('ads', {
 
         async fetchAds(){
             try {
-                let url = `http://localhost:3000/ad?&city=${this.city}`
+                let url = `http://localhost:3000/ad?&city=${this.cityFilter}`
                 if(this.squareFilter !== null) url+= `&squarefoot=${this.squareFilter}`
                 if(this.priceFilter !== null) url+= `&price=${this.priceFilter}`
                 if(this.typeFilter !== '') url+= `&type=${this.typeFilter}`

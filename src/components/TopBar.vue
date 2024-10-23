@@ -17,7 +17,7 @@ const filter = ref({
 
 
 const makeSearch = useDebounceFn(() => {
-  store.fetchAds(filter.value);
+  store.fetchAds();
 }, 300);
 
 
@@ -42,8 +42,8 @@ const inputs = [
 <template>
   <section class="flex w-full h-auto item-center justify-center">
     <div class="flex gap-6 border-[1px] border-slate-300 w-fit h-auto py-4 px-6 shadow-sm rounded-2xl bg-[#fafafa]">
-      <Select v-for="(item, index) in selects" :key="index" :options="item.options" :placeholder="item.placeholder" v-model="filter[item.modelValue]"/>
-      <InputText v-for="(item,index) in inputs" :key="index" :placeholder="item.placeholder" type="text" v-model="filter[item.modelValue]"/>
+      <Select v-for="(item, index) in selects" :key="index" :options="item.options" :placeholder="item.placeholder" v-model="filter[item.modelValue as keyof typeof filter]"/>
+      <InputText v-for="(item,index) in inputs" :key="index" :placeholder="item.placeholder" type="text" v-model="filter[item.modelValue as keyof typeof filter]"/>
     </div>
 
   </section>
