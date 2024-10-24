@@ -8,12 +8,26 @@ export const useAdsStore = defineStore('ads', {
            square: '',
            price: ''
        },
+        cities : [],
         ads : [],
         isLoading: false
 
     }),
 
     actions : {
+        MUTATE_CITIES(cities: any[]){
+            cities.map((city) => {
+              if(!this.cities.includes(city.city)){
+                this.cities.push(city.city)
+              }
+            })
+        },
+
+
+        setCities(value: any){
+            this.MUTATE_CITIES(value)
+        },
+
         setType(value: string) {
             console.log('value', value)
             if(value.toLowerCase() === 'location'){
@@ -45,7 +59,6 @@ export const useAdsStore = defineStore('ads', {
                 if(this.filter.square !== '') url+= `&squarefoot=${this.filter.square}`
                 if(this.filter.price !== '') url+= `&price=${this.filter.price}`
                 if(this.filter.type !== '') url+= `&type=${this.filter.type}`
-                console.log(url)
                 const response = await fetch(url , {
                     method: "GET",
                     headers: {
@@ -53,12 +66,21 @@ export const useAdsStore = defineStore('ads', {
                     },
                 });
                 const data = await response.json();
-                console.log('data received', data)
                 this.setAds(data);
             } catch (error) {
                 console.error("Erreur lors de la récupération des annonces:", error);
             }finally{
                 this.isLoading = false
+            }
+        },
+        
+        async fetchCities(){
+            try{
+                const response = await fetch('http://localhost:3000/ad/cities')
+                const data = await response.json();
+                this.setCities(data)
+            }catch (e) {
+                console.error("Erreur lors de la récupération des villes:", e);
             }
         }
     }

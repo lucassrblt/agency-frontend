@@ -4,9 +4,16 @@ import InputText from "primevue/inputtext";
 import {ref, watch} from 'vue';
 import {useAdsStore} from "../store/adsStore.ts";
 import { useDebounceFn } from '@vueuse/core'
+import Button  from 'primevue/button';
+import {useRouter} from "vue-router";
+import {computed} from "vue";
 
-
+const router = useRouter()
 const store = useAdsStore()
+
+const cities = computed(() => store.cities);
+
+
 const filter = ref({
   type: "",
   city: "",
@@ -32,7 +39,7 @@ watch(filter, (newValue) => {
 
 const selects = [
   {options: ["Location", "Vente"], placeholder: "Choisir un type", modelValue: 'type'},
-  {options: ["Asnières", "Courbevoie"], placeholder: "Choisir une ville", modelValue: 'city'},
+  {options: cities.value, placeholder: "Choisir une ville", modelValue: 'city'},
 ];
 
 const inputs = [
@@ -44,12 +51,13 @@ const inputs = [
 </script>
 
 <template>
-  <section class="flex w-full h-auto item-center justify-center">
+  <section class="flex w-full h-auto items-center justify-between">
     <div class="flex gap-6 border-[1px] border-slate-300 w-fit h-auto py-4 px-6 shadow-sm rounded-2xl bg-[#fafafa]">
       <Select v-for="(item, index) in selects" :key="index" :options="item.options" :placeholder="item.placeholder" v-model="filter[item.modelValue as keyof typeof filter]"/>
       <InputText v-for="(item,index) in inputs" :key="index" :placeholder="item.placeholder" type="text" v-model="filter[item.modelValue as keyof typeof filter]"/>
     </div>
 
+      <Button label="Créer" severity="primary" @click="() => router.push({path: '/annonces'})"/>
   </section>
 </template>
 
