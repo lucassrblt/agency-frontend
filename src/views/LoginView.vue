@@ -1,11 +1,10 @@
 <script setup lang="ts">
 
-import InputText from "primevue/inputtext";
-import FloatLabel from "primevue/floatlabel";
 import Button from "primevue/button";
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 import {useAuthStore} from "../store/authStore.ts";
+import BG from "../assets/images/admin/bg.jpg"
 
 
 const store = useAuthStore();
@@ -39,10 +38,11 @@ async function handleConnexion() {
       }),
     });
     const data = await response.json();
-    if(data.statusCode === 200){
+    console.log('data received', data);
+    if (data.statusCode === 200) {
       console.log('login success:', data);
-      store.setToken(data.access_token);
-      router.push('/admin');
+
+      // router.push('/admin');
     }
   } catch (error) {
     console.error("Erreur lors de la connexion:", error);
@@ -52,18 +52,29 @@ async function handleConnexion() {
 </script>
 
 <template>
-  <div>
-    <h1>Login View</h1>
-
-    <div class="w-1/2 h-1/2 flex flex-col gap-12 bg-white shadow-md border-gray-500 border-[1px]">
-      <FloatLabel v-for="(item, index) in inputs" :key="index">
-        <InputText :id="item.id" v-model="item.modelValue.value" :placeholder="item.placeholder"/>
-        <label :id="item.id">{{ item.label }}</label>
-      </FloatLabel>
-
-      <Button label="connexion" @click="handleConnexion"/>
+  <section class="w-full h-full flex justify-center items-center">
+    <div class="h-full w-1/2">
+      <img :src="BG" class="w-full h-full object-cover">
     </div>
-  </div>
+    <div class="flex flex-col w-1/2 justify-center items-center">
+      <div class="w-[60%] flex flex-col gap-10">
+        <div class="flex flex-col gap-2">
+          <h1 class="text-neutral-900 text-2xl font-medium font-poppins">Connexion Administrateur</h1>
+          <p class="text-neutral-700 text-md font-regular font-poppins">Portail de connexion à la partie
+            administrateur</p>
+        </div>
+        <div class="flex flex-col gap-4 w-full">
+          <div v-for="(item, index) in inputs" :key="index">
+            <input :id="item.id" v-model="item.modelValue.value" :placeholder="item.placeholder"
+                   class="w-full rounded-sm border-[1px] border-slate-300 min-h-9 min-w-20 text-sm text-slate-500 font-poppins font-regular px-4"/>
+          </div>
+          <button class="w-full min-h-10 bg-slate-950 text-slate-50 rounded-sm font-poppins font-medium text-md" @click="handleConnexion">
+            Connexion
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>
