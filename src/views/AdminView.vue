@@ -1,13 +1,41 @@
 <script setup lang="ts">
 import TopBar from "../components/TopBar.vue";
 import AnnoncesWrapper from "../components/AnnoncesWrapper.vue";
+import {useConfirm} from "primevue/useconfirm";
+import {useToast} from "primevue/usetoast";
 import {onMounted, watchEffect} from "vue";
 import {useAdsStore} from "../store/adsStore.ts";
 import { storeToRefs } from 'pinia';
 
-
 const store = useAdsStore()
 const { ads, isLoading } = storeToRefs(store);
+const confirm = useConfirm();
+const toast = useToast();
+
+
+const handleConfirm = () => {
+  console.log('test')
+  confirm.require({
+    message: 'Are you sure you want to proceed?',
+    header: 'Confirmation',
+    icon: 'pi pi-exclamation-triangle',
+    position: 'top',
+    rejectProps: {
+      label: 'Cancel',
+      severity: 'secondary',
+      outlined: true
+    },
+    acceptProps: {
+      label: 'Save'
+    },
+    accept: () => {
+      toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+    },
+    reject: () => {
+      toast.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+    }
+  });
+};
 
 
 

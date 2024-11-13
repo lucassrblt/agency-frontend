@@ -38,7 +38,7 @@ watch(filter, (newValue) => {
 
 
 const selects = [
-  {options: ["Location", "Vente"], placeholder: "Choisir un type", modelValue: 'type'},
+  {options: ["Tous types", "Location", "Vente"], placeholder: "Choisir un type", modelValue: 'type'},
   {options: cities.value, placeholder: "Choisir une ville", modelValue: 'city'},
 ];
 
@@ -57,7 +57,7 @@ const inputs = [
       <InputText v-for="(item,index) in inputs" :key="index" :placeholder="item.placeholder" type="text" v-model="filter[item.modelValue as keyof typeof filter]"/>
     </div>
 
-      <Button label="Créer" severity="primary" @click="() => router.push({path: '/annonces'})"/>
+      <Button label="Créer" severity="primary" @click="() => router.push({path: '/admin/create'})"/>
   </section>
 </template>
 

@@ -10,6 +10,7 @@ export const useAdsStore = defineStore('ads', {
        },
         cities : [],
         ads : [],
+        currentAd: null,
         isLoading: false
 
     }),
@@ -17,10 +18,20 @@ export const useAdsStore = defineStore('ads', {
     actions : {
         MUTATE_CITIES(cities: any[]){
             cities.map((city) => {
-              if(!this.cities.includes(city.city)){
-                this.cities.push(city.city)
+              if(!this.cities.includes(city)){
+                this.cities.push(city)
               }
             })
+            this.cities.unshift('Toutes les villes')
+        },
+
+        MUTATE_SELECT_AD(id: number){
+            if(this.ads.length > 0 && id !== null){
+                this.currentAd = this.ads.find((ad) => ad.id === id)
+                console.log('current ad', this.currentAd)
+            }else{
+                console.log("Erreur lors de la récupération de l'annonce")
+            }
         },
 
 
@@ -29,11 +40,10 @@ export const useAdsStore = defineStore('ads', {
         },
 
         setType(value: string) {
-            console.log('value', value)
             if(value.toLowerCase() === 'location'){
-                this.filter.type = 0
+                this.filter.type = value.toUpperCase()
             }else if(value.toLowerCase() === 'vente'){
-                this.filter.type = 1
+                this.filter.type = value.toUpperCase()
             }else{
                 this.filter.type = ""
             }
@@ -55,7 +65,8 @@ export const useAdsStore = defineStore('ads', {
         async fetchAds(){
             try {
                 this.isLoading = true;
-                let url = `http://localhost:3000/ad?&city=${this.filter.city}`
+                let url = `http://localhost:3000/ad?`
+                if(this.filter.city !== '' && this.filter.city !== 'Toutes les villes') url += `&city=${this.filter.city}`
                 if(this.filter.square !== '') url+= `&squarefoot=${this.filter.square}`
                 if(this.filter.price !== '') url+= `&price=${this.filter.price}`
                 if(this.filter.type !== '') url+= `&type=${this.filter.type}`
@@ -66,7 +77,8 @@ export const useAdsStore = defineStore('ads', {
                     },
                 });
                 const data = await response.json();
-                this.setAds(data);
+                console.log('response ads', data)
+                this.setAds(data.data);
             } catch (error) {
                 console.error("Erreur lors de la récupération des annonces:", error);
             }finally{
@@ -78,7 +90,7 @@ export const useAdsStore = defineStore('ads', {
             try{
                 const response = await fetch('http://localhost:3000/ad/cities')
                 const data = await response.json();
-                this.setCities(data)
+                this.setCities(data.data)
             }catch (e) {
                 console.error("Erreur lors de la récupération des villes:", e);
             }

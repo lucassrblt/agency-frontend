@@ -82,7 +82,7 @@ const handleConfirm = () => {
         <div class="flex gap-4 mt-4">
 <!--          <Toast />-->
           <ConfirmDialog></ConfirmDialog>
-          <Button label="Modifier" severity="secondary" outlined class="w-full" @click="router.push({path : `/admin/annonces/${item.id}`})"/>
+          <Button label="Modifier" severity="secondary" outlined class="w-full" @click="router.push({path : `/admin/${item.id}`})"/>
           <Button label="Supprimer" severity="danger" class="w-full" @click="handleConfirm()"/>
         </div>
       </template>

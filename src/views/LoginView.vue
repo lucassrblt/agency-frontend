@@ -5,10 +5,12 @@ import {ref} from "vue";
 import {useRouter} from "vue-router";
 import {useAuthStore} from "../store/authStore.ts";
 import BG from "../assets/images/admin/bg.jpg"
+import {useToast} from "primevue/usetoast"
 
 
 const store = useAuthStore();
 const router = useRouter();
+const toast = useToast();
 
 const inputs = [{
   placeholder: "Entrer votre email",
@@ -23,17 +25,21 @@ const inputs = [{
 }];
 
 
+function test(){
+  toast.add({ severity: 'success', summary: 'Success Message', detail: 'Order submitted' });
+}
+
 
 
 async function handleConnexion() {
   try {
-    const response = await fetch("http://localhost:3000/auth/login", {
+    const response = await fetch("http://localhost:3000/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: inputs[0].modelValue.value,
+        email: inputs[0].modelValue.value,
         password: inputs[1].modelValue.value,
       }),
     });
@@ -68,7 +74,7 @@ async function handleConnexion() {
             <input :id="item.id" v-model="item.modelValue.value" :placeholder="item.placeholder"
                    class="w-full rounded-sm border-[1px] border-slate-300 min-h-9 min-w-20 text-sm text-slate-500 font-poppins font-regular px-4"/>
           </div>
-          <button class="w-full min-h-10 bg-slate-950 text-slate-50 rounded-sm font-poppins font-medium text-md" @click="handleConnexion">
+          <button class="w-full min-h-10 bg-slate-950 text-slate-50 rounded-sm font-poppins font-medium text-md" @click="test">
             Connexion
           </button>
         </div>
