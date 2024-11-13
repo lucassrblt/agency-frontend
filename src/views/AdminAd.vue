@@ -2,7 +2,7 @@
 
 import AdForm from "../components/AdForm.vue";
 import Button from 'primevue/button';
-import {onMounted, ref, watch, watchEffect} from "vue";
+import {onMounted, ref, watch} from "vue";
 import TechnicalSheetForm from "../components/TechnicalSheetForm.vue";
 import ImageForm from "../components/ImageForm.vue";
 import {useRoute} from "vue-router";
@@ -12,22 +12,21 @@ import {useAdsStore} from "../store/adsStore.ts";
 const pageNumber = ref(1)
 const route = useRoute()
 const store = useAdsStore();
-const adId = ref(route.params.id)
-const currentAd = ref(store.currentAd)
+const adId = ref<string | string[] | undefined>(route.params.id)
 
-const fetchAdDetails = async (id: number) => {
+const fetchAdDetails = async (id: string) => {
   await store.MUTATE_SELECT_AD(id)
 }
 
 onMounted(() => {
-  if (adId.value) {
+  if (adId.value && typeof adId.value === 'string') {
     fetchAdDetails(adId.value);
   }
 });
 
-watch(route.params.id, (newValue) => {
-  adId.value = newValue;
-  if (newValue) {
+watch(() => route.params, (newParams) => {
+  const newValue = newParams.id;
+  if (newValue && typeof newValue === 'string') {
     fetchAdDetails(newValue);
   }
 });

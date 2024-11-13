@@ -4,11 +4,8 @@ import FloatLabel from "primevue/floatlabel";
 import Select from "primevue/select";
 import InputText from "primevue/inputtext";
 import Textarea from 'primevue/textarea';
-import {useAdsStore} from "../store/adsStore.ts";
 import FileUpload  from 'primevue/fileupload';
 
-const store = useAdsStore()
-const selectedAd = ref(store.currentAd)
 
 const form = ref({
   type: "",
@@ -17,15 +14,15 @@ const form = ref({
   description: "",
   zipcode: "",
   city:  "",
-  room: "",
-  bedroom: "",
-  bathroom: "",
-  parking: null,
   squarefoot: "",
 })
 
 const metadataForm = ref({
   floor: "",
+  bathroom: "",
+  room: "",
+  bedroom: "",
+  parking: null,
   build_year: "",
   toilets: "",
   cellar: null,
@@ -108,7 +105,7 @@ watch(form.value, (value) => {
     <Select v-model="metadataForm.gas_class" :options="['A', 'B', 'C', 'D', 'E', 'F', 'G']" placeholder="Valeur Gaz"/>
 
     // Ajout d'image
-    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+    <FileUpload name="demo[]" url="/api/upload" :multiple="true" accept="image/*" :maxFileSize="1000000">
       <template #empty>
         <span>Drag and drop files to here to upload.</span>
       </template>

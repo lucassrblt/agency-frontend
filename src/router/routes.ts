@@ -3,9 +3,6 @@ import AdminView from "../views/AdminView.vue";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import AdminAd from "../views/AdminAd.vue";
-import AdminCreateView from "../views/AdminCreateView.vue";
-import {useAuthStore} from "../store/authStore.ts";
-// import {isTokenExpired} from "../utils/jwtUtils.ts";
 //
 
 // const ifAuthenticated = (to, from, next) => {
@@ -20,11 +17,11 @@ import {useAuthStore} from "../store/authStore.ts";
 // }
 
 
-const isAuthenticated = (to, from, next) => {
-    // Check du token
-
-    next({path: '/login'})
-}
+// const isAuthenticated = (to, from, next) => {
+//     // Check du token
+//
+//     next({path: '/login'})
+// }
 
 
 const routes = [

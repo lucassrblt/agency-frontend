@@ -1,15 +1,13 @@
 <script setup lang="ts">
 
-import Button from "primevue/button";
 import {ref} from "vue";
-import {useRouter} from "vue-router";
-import {useAuthStore} from "../store/authStore.ts";
+// import {useRouter} from "vue-router";
+// import {useAuthStore} from "../store/authStore.ts";
 import BG from "../assets/images/admin/bg.jpg"
 import {useToast} from "primevue/usetoast"
 
 
-const store = useAuthStore();
-const router = useRouter();
+// const router = useRouter();
 const toast = useToast();
 
 const inputs = [{
@@ -31,29 +29,29 @@ function test(){
 
 
 
-async function handleConnexion() {
-  try {
-    const response = await fetch("http://localhost:3000/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: inputs[0].modelValue.value,
-        password: inputs[1].modelValue.value,
-      }),
-    });
-    const data = await response.json();
-    console.log('data received', data);
-    if (data.statusCode === 200) {
-      console.log('login success:', data);
-
-      // router.push('/admin');
-    }
-  } catch (error) {
-    console.error("Erreur lors de la connexion:", error);
-  }
-}
+// async function handleConnexion() {
+//   try {
+//     const response = await fetch("http://localhost:3000/user/login", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         email: inputs[0].modelValue.value,
+//         password: inputs[1].modelValue.value,
+//       }),
+//     });
+//     const data = await response.json();
+//     console.log('data received', data);
+//     if (data.statusCode === 200) {
+//       console.log('login success:', data);
+//
+//       // router.push('/admin');
+//     }
+//   } catch (error) {
+//     console.error("Erreur lors de la connexion:", error);
+//   }
+// }
 
 </script>
 

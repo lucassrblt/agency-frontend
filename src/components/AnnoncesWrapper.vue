@@ -3,9 +3,11 @@ import Card from 'primevue/card';
 import Button from "primevue/button";
 import {useRouter} from "vue-router";
 import {useConfirm} from "primevue/useconfirm";
-import { useToast } from "primevue/usetoast";
-import Toast from "primevue/toast";
+import {useToast} from "primevue/usetoast";
 
+
+const toast = useToast();
+const router = useRouter();
 
 interface AdItem {
   id: number;
@@ -29,11 +31,11 @@ interface Images {
   url: string;
 }
 
-const router = useRouter();
-// const toast = useToast();
 const props = defineProps<{
   ads: AdItem[];
 }>();
+
+const { ads } = props;
 
 const confirm = useConfirm();
 

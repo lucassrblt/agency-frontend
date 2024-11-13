@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AdminLayout from "./layouts/AdminLayout.vue";
 import {computed} from "vue";
 import {useRoute} from 'vue-router'
 import Toast from 'primevue/toast';

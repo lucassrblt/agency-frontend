@@ -8,16 +8,16 @@ export const useAdsStore = defineStore('ads', {
            square: '',
            price: ''
        },
-        cities : [],
+        cities : [] as string[],
         ads : [],
-        currentAd: null,
+        currentAd: undefined,
         isLoading: false
 
     }),
 
     actions : {
         MUTATE_CITIES(cities: any[]){
-            cities.map((city) => {
+            cities.map((city: string) => {
               if(!this.cities.includes(city)){
                 this.cities.push(city)
               }
@@ -25,9 +25,9 @@ export const useAdsStore = defineStore('ads', {
             this.cities.unshift('Toutes les villes')
         },
 
-        MUTATE_SELECT_AD(id: number){
+        MUTATE_SELECT_AD(id: string){
             if(this.ads.length > 0 && id !== null){
-                this.currentAd = this.ads.find((ad) => ad.id === id)
+                this.currentAd = this.ads.find((ad: any) => ad.id === id)
                 console.log('current ad', this.currentAd)
             }else{
                 console.log("Erreur lors de la récupération de l'annonce")
